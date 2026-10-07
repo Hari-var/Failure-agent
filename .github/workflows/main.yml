@@ -45,12 +45,6 @@ jobs:
           pip check
           pip list | grep -Ei "agent|foundry|vida"
 
-      - name: Verify Application
-        run: |
-          python -c "import fastapi; print('FastAPI:', fastapi.__version__)"
-          python -c "import agent_framework; print('agent_framework:', agent_framework.__file__)"
-          python -c "from agent_framework.foundry import FoundryChatClient; print('FoundryChatClient OK')"
-          python -c "import main; print('Application import OK')"
       - name: Verify Application Dependencies
         run: |
           python -c "import fastapi; print('FastAPI:', fastapi.__version__)"
