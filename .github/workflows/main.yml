@@ -51,6 +51,12 @@ jobs:
           python -c "import agent_framework; print('agent_framework:', agent_framework.__file__)"
           python -c "from agent_framework.foundry import FoundryChatClient; print('FoundryChatClient OK')"
           python -c "import main; print('Application import OK')"
+      - name: Verify Application Dependencies
+        run: |
+          python -c "import fastapi; print('FastAPI:', fastapi.__version__)"
+          python -c "import agent_framework; print('agent_framework:', agent_framework.__file__)"
+          python -c "from agent_framework.foundry import FoundryChatClient; print('FoundryChatClient OK')"
+
 
       - name: Show Agent Framework Packages
         run: |
@@ -59,9 +65,6 @@ jobs:
           pip show vida || true
           pip list | grep -Ei "agent|foundry|vida"
 
-      - name: Verify Application Startup
-        run: |
-          python -c "import main"
 
 
       - name: Create Deployment Package
