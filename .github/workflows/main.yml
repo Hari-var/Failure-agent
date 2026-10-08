@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
   workflow_dispatch:
 
 env:
@@ -25,41 +26,10 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Validate Python
-        run: |
-          python --version
-          pip --version
-
-      - name: Validate Requirements
-        run: |
-          test -f requirements.txt
-          cat requirements.txt
-
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Verify Dependencies
-        run: |
-          pip check
-          pip list | grep -Ei "agent|foundry|vida"
-
-      - name: Verify Application Dependencies
-        run: |
-          python -c "import fastapi; print('FastAPI:', fastapi.__version__)"
-          python -c "import agent_framework; print('agent_framework:', agent_framework.__file__)"
-          python -c "from agent_framework.foundry import FoundryChatClient; print('FoundryChatClient OK')"
-
-
-      - name: Show Agent Framework Packages
-        run: |
-          pip show agent-framework || true
-          pip show agent-framework-foundry || true
-          pip show vida || true
-          pip list | grep -Ei "agent|foundry|vida"
-
-
 
       - name: Create Deployment Package
         run: |
@@ -82,7 +52,6 @@ jobs:
         with:
           name: python-app
           path: app.zip
-
 
   sast:
     name: Security Scan (SAST)
@@ -116,7 +85,6 @@ jobs:
           format: table
           severity: HIGH,CRITICAL
           exit-code: 1
-
 
   deploy:
     name: Deploy to Azure Web App
